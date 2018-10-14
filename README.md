@@ -18,3 +18,6 @@
 
 ##patmat
     ###Description
+
+    Study Notes:
+        scala: triple colons (":::") -- concatenates two lists
