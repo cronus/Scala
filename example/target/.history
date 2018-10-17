@@ -41,3 +41,9 @@ test
 styleCheck
 submit zhoufu329@gmail.com KiBsTXy0YZE1nuCN
 exit
+submit
+sbt submit zhoufu329@gmail.com
+submit zhoufu329@gmail.com
+exit
+submit zhoufu329@gmail.com m1yLMIBDJtnA1lFV
+exit
