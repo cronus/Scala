@@ -18,6 +18,11 @@
 
 ##patmat
     ###Description
+        Huffman coding
 
     Study Notes:
         scala: triple colons (":::") -- concatenates two lists
+
+##forcomp
+    ###Description
+        Anagrams
