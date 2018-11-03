@@ -93,19 +93,22 @@ object Huffman {
    * of a leaf is the frequency of the character.
    */
     def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
-        val n = freqs.length/2
-        if (n == 0) freqs
-        else {
-            def merge(xs: List[(Char, Int)], ys: List[(Char, Int)]) = (xs, ys) match {
-                case (Nil, ys) => ys
-                case (xs, Nil) => xs
-                case (x :: xs1, y :: ys1) =>
-                    if (x < y) x :: merge(xs1, ys)
-                    else y :: merge(xs, ys1)
+        def makeOrderedList(freqs: List[(Char, Int)]): List[(Char, Int)] = {
+            val n = freqs.length/2
+            if (n == 0) freqs 
+            else {
+                def merge(xs: List[(Char, Int)], ys: List[(Char, Int)]) : List[(Char, Int)] = (xs, ys) match {
+                    case (Nil, ys) => ys 
+                    case (xs, Nil) => xs
+                    case (x :: xs1, y :: ys1) =>
+                        if (x._2 < y._2) x :: merge(xs1, ys)
+                        else y :: merge(xs, ys1)
+                }
+                val (fst, snd) = freqs splitAt n
+                merge(makeOrderedList(fst), makeOrderedList(snd)) 
             }
-            val (fst, snd) = freqs splitAt n
-            merge(msort(fst), msort(snd))
         }
+        makeOrderedList(freqs) map (ys => new Leaf(ys._1, ys._2))
     }
   
   /**
