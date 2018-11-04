@@ -179,17 +179,15 @@ object Huffman {
    * the resulting list of characters.
    */
     def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
-        def decodeAccu(root: CodeTree, tree: CodeTree, bits: List[Bit], accu: List[Char]): List[Char] = {
-            if (bits.length == 0) accu
-            else {
-                tree match {
-                    case Leaf(char, _) => decodeAccu(root, root, bits, accu ::: List(char))
-                    case Fork(left, right, _, _) => 
-                        if (bits.head == 0) decodeAccu(root, left, bits.tail, accu)
-                        else decodeAccu(root, right, bits.tail, accu)
-                }
+        def decodeAccu(root: CodeTree, tree: CodeTree, bits: List[Bit], accu: List[Char]): List[Char] = 
+            tree match {
+                case Leaf(char, _) => 
+                    if (bits.length == 0) accu ::: List(char)
+                    else decodeAccu(root, root, bits, accu ::: List(char))
+                case Fork(left, right, _, _) => 
+                    if (bits.head == 0) decodeAccu(root, left, bits.tail, accu)
+                    else decodeAccu(root, right, bits.tail, accu)
             }
-        }
         decodeAccu(tree, tree, bits, List())
     }
   
@@ -218,9 +216,25 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-    def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???//{
-        //encodeAccu(tree: CodeTree)(text: List[Char]): List[Bit]
-    //}
+    def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+        def contains(tree: CodeTree, x: Char): Boolean =  tree match {
+            case Leaf(char, _) =>
+                if (char == x) true
+                else false
+            case Fork(left, right, _, _) => contains(left, x) || contains(right, x)
+        }
+
+        def encodeAccu(root: CodeTree, tree: CodeTree)(text: List[Char], accu: List[Bit]): List[Bit] = {
+            if (text.length == 0) accu
+            else tree match {
+                case Leaf(_, _) => encodeAccu(root, root)(text.tail, accu)
+                case Fork(left, right, _, _) => 
+                    if (contains(left, text.head)) encodeAccu(root, left)(text, accu ::: List(0)) 
+                    else encodeAccu(root, right)(text, accu ::: List(1))
+            }
+        }
+        encodeAccu(tree, tree)(text, List())
+    }
   
   // Part 4b: Encoding using code table
 
