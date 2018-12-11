@@ -15,15 +15,34 @@
     MOstRetweeted
 
 *** Study Notes
-scala: use a.instanceOf[<class name>] to test whether instance a's class is <class name>
+- scala: use a.instanceOf[<class name>] to test whether instance a's class is <class name>
 
 ** patmat
 *** Description
 Huffman coding
 
 *** Study Notes:
-scala: triple colons (":::") -- concatenates two lists
+- scala: triple colons (":::") -- concatenates two lists
 
 ** forcomp
 *** Description
 Anagrams
+
+*** Study Notes
+- def flatten[B]: List[B]
+  Converts list of tranversable collections into list formed
+  by the elements of these tranversable collections
+  *only one level expanded*
+
+- Concatenate list of strings to a single string
+  s: List[String]
+  s.mkString: single string 
+
+- the function value
+  {case p1 => e1 ... case pn => en}
+  is equivalent to
+  x => x match {
+       case p1 => e1
+       ...
+       case pn => en
+       }
